@@ -2,7 +2,7 @@
 
 Program: WordCount.java          Last Date of this Revision: October 21, 2024
 
-Purpose: An application That goes in a file and tells the user Number of words and Average word length
+Purpose: An application that displays the number of words and average word length in a textfile named source.txt
 
 Author: Sahil Doad, 
 School: CHHS
@@ -19,31 +19,50 @@ import java.io.IOException;
 
 public class WordCount {
     public static void main(String[] args) {
-        String fileName = "../Chapter11/src/Mastery/source.txt"; 
-        int wordCount = 0;
-        int totalLength = 0;
-
+    	// Specifies the file path
+    	String fileName = "../Chapter11/src/Mastery/source.txt"; 
+    	// Initializes a counter for the number of words
+    	int wordCount = 0;
+    	// Initializes a counter for the total length of all words
+    	int totalLength = 0;
+    	
+    	// Opens the file for reading
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
+           
+            // Reads each line of the file until there are no more lines
             while ((line = br.readLine()) != null) {
-                String[] words = line.split("\\W+"); 
-                for (String word : words) {
-                    if (!word.isEmpty()) {
-                        wordCount++;
-                        totalLength += word.length();
+            	
+             // Splits the line into words based on non-word characters (spaces, punctuation)
+            String[] words = line.split("\\W+"); 
+            // Loops through each word  
+            for (String word : words) {
+            	 // Checks if the word is not empty
+            	if (!word.isEmpty()) {
+            		 // Increments the word count
+            		wordCount++;
+            		// Adds the word's length to the total length
+            		totalLength += word.length();
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } 
+        // Catches any input/output exceptions
+        catch (IOException e) {
+        // Prints stack trace for debugging	
+        e.printStackTrace();
         }
-
+        // Checks if there were any words in the file
         if (wordCount > 0) {
+        	// Calculates the average word length by dividing total length by word count
             double averageWordLength = (double) totalLength / wordCount;
+         // Prints the word count
             System.out.println("Number of words: " + wordCount);
+         // Prints the average word length
             System.out.println("Average word length: " + averageWordLength);
         } else {
-            System.out.println("No words found.");
+        	// Prints message if no words were found
+        	System.out.println("No words found.");
         }
     }
 }

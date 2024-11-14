@@ -2,7 +2,7 @@
 
 Program: MySavings.java          Last Date of this Revision: October 31, 2024
 
-Purpose: An application that Stores Money in a File for the user 
+Purpose: An application that displays a menu of choices for entering pennies,nickels,dimes,and quarters into a PiggyBank object to store and load from a file 
 
 Author: Sahil Doad
 School: CHHS
@@ -10,8 +10,8 @@ Course: Computer Science 30
  
 
 */
-
 package Mastery;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,32 +29,35 @@ public class MySavings {
      public static PiggyBank loadFromFile() 
      {
          try{
-        	 /*read object */
+        
         	 
-        	 //FileInputStrea ....
-        	 //ObjectInputStream  readBank ...
-        	 //piggyBank = (PiggyBank) ..STR..STR..STR..STR.
-        	 
+        	// Creates a FileInputStream to read from the file "../Chapter11/src/Mastery/piggybank.dat"
              FileInputStream fileIn = new FileInputStream("../Chapter11/src/Mastery/piggybank.dat");
             
+             // Creates an ObjectInputStream to read the PiggyBank object from the file
              ObjectInputStream readBank = new ObjectInputStream(fileIn);
              
-             
+          // Reads and casts the object in the file to a PiggyBank instance
              piggyBank = (PiggyBank) readBank.readObject();        	
         	 
+          // Closes the ObjectInputStream
         	 readBank.close();
             
+        	 // Catches exception if the file is not found
          } catch (FileNotFoundException e) {
 			System.out.println("File could not be found.");
     		System.err.println("FileNotFoundException: " + e.getMessage());
-    	} catch (IOException e) {
+    		 // Catches other input/output exceptions
+         } catch (IOException e) {
 			System.out.println("Problem with input/output.");
     		System.err.println("IOException: " + e.getMessage());
-    	} catch (ClassNotFoundException e) {
+    		
+    		// Catches exception if PiggyBank class is not found
+         } catch (ClassNotFoundException e) {
 			System.out.println("Class could not be used to cast object.");
     		System.err.println("ClassNotFoundException: " + e.getMessage());
 		}
-         
+         // Returns the PiggyBank object loaded from the file
 		return(piggyBank);
      }
 	
@@ -69,19 +72,23 @@ public class MySavings {
         	 //ObjectOutputStream writeBank...
         	 //writeBank.writeObjec....
     		 //writeBank...
-    		 
+    		
+    		 // Creates a FileOutputStream to write to the file "../Chapter11/src/Mastery/piggybank.dat"
     		 FileOutputStream fileOut = new FileOutputStream("../Chapter11/src/Mastery/piggybank.dat");
-             ObjectOutputStream writeBank = new ObjectOutputStream(fileOut);
+    		 // Creates an ObjectOutputStream to write the PiggyBank object to the file
+    		 ObjectOutputStream writeBank = new ObjectOutputStream(fileOut);
              
-             writeBank.writeObject(piggyBank);
-           
+    		// Writes the PiggyBank object to the file
+            writeBank.writeObject(piggyBank);
+            // Closes the ObjectOutputStream
              writeBank.close();
 
-                        
+          // Catches exception if the file is not found
          } catch (FileNotFoundException e) {
 			System.out.println("File could not be found.");
     		System.err.println("FileNotFoundException: " + e.getMessage());
-    	} catch (IOException e) {
+    		 // Catches other input/output exceptions
+         } catch (IOException e) {
 			System.out.println("Problem with input/output.");
     		System.err.println("IOException: " + e.getMessage());
     	}
@@ -93,6 +100,7 @@ public class MySavings {
           int choice;
 
         do {
+        	 // Displays a menu for the user to interact with the PiggyBank
             System.out.println("\n1. Show total in bank.");
             System.out.println("2. Add a penny.");
             System.out.println("3. Add a nickel.");
@@ -104,23 +112,36 @@ public class MySavings {
             choice = scanner.nextInt();
 
             switch (choice) {
-                case 1 -> System.out.println("Total in bank: $" + piggyBank.getTotal());
-                case 2 -> piggyBank.addPenny();
-                case 3 -> piggyBank.addNickel();
-                case 4 -> piggyBank.addDime();
-                case 5 -> piggyBank.addQuarter();
-                case 6 -> {
+         // Displays total amount
+         case 1 -> System.out.println("Total in bank: $" + piggyBank.getTotal());
+         // Adds a penny to the PiggyBank      
+         case 2 -> piggyBank.addPenny();
+         // Adds a nickel to the PiggyBank
+         case 3 -> piggyBank.addNickel();
+         // Adds a dime to the PiggyBank
+         case 4 -> piggyBank.addDime();
+         // Adds a quarter to the PiggyBank
+         case 5 -> piggyBank.addQuarter();
+         // Allows the user to take money out of the PiggyBank
+         case 6 -> {
                     System.out.print("Enter amount to take out: ");
                     double amount = scanner.nextDouble();
+                    // Removes the specified amount
                     piggyBank.takeMoneyOut(amount);
                 }
                 case 0 -> {
+                	// Exits the program and saves data
                     System.out.println("Exiting and saving data...");
-                    storeFile(piggyBank);
+                    
+                 // Calls storeFile to save PiggyBank data to a file
+                   storeFile(piggyBank);
                 }
+             // Handles invalid choices
                 default -> System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 0);
+        } 
+     // Loops until the user chooses to exit
+        while (choice != 0);
 
         
     }
