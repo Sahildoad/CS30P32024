@@ -7,7 +7,7 @@ public class Circle
 	
 	public Circle() 
 	{
-		radius = 1;			//default radius
+		radius = 1;			
 	}
 	
 	public Circle(double r) 
